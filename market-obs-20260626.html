@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>市場觀察紀錄 2026/06/26</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0c10;--surface:#0f1219;--card:#13161f;--card2:#181c27;--panel:#0e111a;
+  --border:rgba(255,255,255,0.06);--border-bright:rgba(255,255,255,0.13);
+  --text:#dde2ee;--muted:#5c6478;--muted2:#3d4455;
+  --accent:#f0b429;
+  --bull:#ff4d4d;--semibull:#fb923c;--warn:#f5c518;--semibear:#a3d977;--bear:#3dd68c;--neutral:#c8ccd6;--blue:#4fa8ff;
+  --font-mono:'IBM Plex Mono',monospace;--font-body:'Noto Sans TC',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:13px;line-height:1.55;min-height:100vh}
+
+/* ── HEADER ── */
+.hdr{display:flex;align-items:center;gap:16px;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border-bright);flex-wrap:wrap}
+.hdr-title{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.16em;color:var(--accent);text-transform:uppercase}
+.hdr-date{font-family:var(--font-mono);font-size:10px;color:var(--muted)}
+.hdr-legend{display:flex;align-items:center;gap:10px;margin-left:auto;margin-right:12px;flex-wrap:wrap;justify-content:flex-end}
+.hl-item{display:flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:9px;color:var(--muted);white-space:nowrap}
+.hl-disclaimer{font-family:var(--font-mono);font-size:9px;color:var(--muted2);white-space:nowrap}
+@media(max-width:700px){
+  .hdr{flex-wrap:wrap;padding:10px 14px}
+  .hdr-legend{margin-left:0;margin-right:0;width:100%;order:10;padding-top:7px;border-top:1px solid var(--border);gap:8px}
+  .hl-disclaimer{flex-basis:100%;order:-1;margin-bottom:3px}
+}
+/* tabs removed — single page */
+.hdr-page-label{font-family:var(--font-mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted2);padding:3px 10px;border:1px solid var(--border);border-radius:4px}
+
+/* ── PAGE ── */
+.page{display:block;padding:16px 20px 0}
+
+/* ── DOMAIN LABEL ── */
+.domain-label{font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.domain-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── CARD GRID ── */
+.card-row{display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}
+
+/* ── CARD ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s;padding:13px 14px 11px;position:relative;user-select:none}
+.card:hover{border-color:var(--border-bright)}
+.card.active{border-color:rgba(240,180,41,0.45);box-shadow:0 0 0 1px rgba(240,180,41,0.15)}
+.card-tag{font-family:var(--font-mono);font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.card-verdict{font-size:12px;font-weight:600;line-height:1.45;margin-bottom:10px;padding:7px 10px;border-radius:4px}
+.v-bull{color:var(--bull);background:rgba(255,95,95,0.08);border:1px solid rgba(255,95,95,0.2)}
+.v-bear{color:var(--bear);background:rgba(61,214,140,0.07);border:1px solid rgba(61,214,140,0.18)}
+.v-warn{color:var(--amber);background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2)}
+.v-neutral{color:var(--neutral);background:rgba(107,120,145,0.08);border:1px solid rgba(107,120,145,0.18)}
+
+/* inline summary rows — replaces old card-kpis/card-lights */
+.card-rows{display:flex;flex-direction:column;gap:4px}
+.cr-group{margin-bottom:2px}
+.cr-grouplabel{font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:3px;margin-top:6px}
+.cr-grouplabel:first-child{margin-top:0}
+.cr{display:flex;align-items:flex-start;gap:6px;font-size:11px;line-height:1.55}
+.cr .tl{margin-top:4px;flex-shrink:0}
+.cr-label{color:var(--muted);white-space:nowrap;font-family:var(--font-mono);font-size:10px;min-width:80px;flex-shrink:0}
+.cr-val{color:var(--text);font-family:var(--font-mono);font-size:10px;font-weight:500}
+.cr-val.bull{color:var(--bull)}.cr-val.semibull{color:var(--semibull)}.cr-val.warn{color:var(--warn)}.cr-val.semibear{color:var(--semibear)}.cr-val.bear{color:var(--bear)}.cr-val.neutral{color:var(--neutral)}
+.cr-note{color:var(--muted);font-size:10px;margin-left:2px}
+/* ── Hierarchical card rows (single card) ── */
+.chr-section{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted2);padding:8px 0 4px;margin-top:6px;border-top:1px solid rgba(255,255,255,0.05)}
+.chr-section:first-child{border-top:none;margin-top:0;padding-top:0}
+.chr{display:flex;align-items:flex-start;gap:8px;padding:3px 0 3px 4px;font-size:11px}
+.chr .tl{margin-top:3px;flex-shrink:0}
+.chr-cat{font-family:var(--font-mono);font-size:10px;color:var(--muted);min-width:130px;flex-shrink:0;line-height:1.5}
+.chr-con{font-family:var(--font-body);font-size:11px;font-weight:500;line-height:1.5;color:var(--text)}
+.chr-con.bull{color:var(--bull)}.chr-con.semibull{color:var(--semibull)}.chr-con.warn{color:var(--warn)}.chr-con.semibear{color:var(--semibear)}.chr-con.bear{color:var(--bear)}.chr-con.neutral{color:var(--neutral)}
+@media(max-width:700px){.chr-cat{min-width:90px}.chr-con{font-size:10px}}
+
+.tl{width:10px;height:10px;border-radius:50%;flex-shrink:0;display:inline-block}
+.tl-bull{background:var(--bull);box-shadow:0 0 5px rgba(255,77,77,0.7)}
+.tl-bear{background:var(--bear);box-shadow:0 0 5px rgba(61,214,140,0.6)}
+.tl-warn{background:var(--warn);box-shadow:0 0 5px rgba(245,197,24,0.7)}
+.tl-neutral{background:var(--neutral)}
+.tl-semibull{background:var(--semibull);box-shadow:0 0 5px rgba(251,146,60,0.7)}
+.tl-semibear{background:var(--semibear);box-shadow:0 0 5px rgba(163,217,119,0.6)}
+.tl-warn{background:var(--warn);box-shadow:0 0 4px rgba(245,197,24,0.5)}
+.tl-semibear{background:var(--semibear);box-shadow:0 0 4px rgba(163,217,119,0.45)}
+.card-open-hint{margin-top:10px;font-family:var(--font-mono);font-size:9px;color:var(--muted2);text-align:right}
+.card.active .card-open-hint{color:var(--accent)}
+
+/* ── DETAIL PANEL (separate block below cards) ── */
+.detail-panel{
+  border:1px solid rgba(240,180,41,0.25);
+  border-radius:8px;
+  background:var(--panel);
+  margin-top:10px;
+  margin-bottom:20px;
+  overflow:hidden;
+  display:none;
+}
+.detail-panel.visible{display:block}
+.dp-header{display:flex;align-items:center;gap:12px;padding:10px 16px;background:rgba(240,180,41,0.06);border-bottom:1px solid rgba(240,180,41,0.15)}
+.dp-title{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.1em;color:var(--accent);flex:1}
+.dp-close{font-family:var(--font-mono);font-size:10px;color:var(--muted);cursor:pointer;padding:2px 8px;border:1px solid var(--border);border-radius:3px;transition:all 0.12s}
+.dp-close:hover{color:var(--text);border-color:var(--border-bright)}
+.dp-body{padding:0}
+
+/* sub-section header */
+.dp-sub{display:flex;align-items:center;gap:10px;font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--text);padding:10px 16px 8px;background:rgba(255,255,255,0.04);border-top:1px solid var(--border-bright);letter-spacing:0.02em}
+.dp-sub:first-child{border-top:none}
+.dp-sub-light{flex-shrink:0;width:16px;display:flex;align-items:center}
+.dp-sub-name{flex:1}
+.dp-sub-conclusion{font-size:11px;font-weight:500;font-family:var(--font-mono);letter-spacing:0;padding:2px 8px;border-radius:3px;white-space:nowrap}
+.dp-sub-conclusion.bull{color:var(--bull);background:rgba(255,77,77,0.1)}
+.dp-sub-conclusion.semibull{color:var(--semibull);background:rgba(251,146,60,0.1)}
+.dp-sub-conclusion.warn{color:var(--warn);background:rgba(245,197,24,0.1)}
+.dp-sub-conclusion.semibear{color:var(--semibear);background:rgba(163,217,119,0.1)}
+.dp-sub-conclusion.bear{color:var(--bear);background:rgba(61,214,140,0.08)}
+.dp-sub-conclusion.neutral{color:var(--neutral);background:rgba(200,204,214,0.08)}
+
+/* detail row - 3 col: light | name | value+conclusion */
+.dr{display:grid;grid-template-columns:22px 220px 1fr;gap:8px;padding:6px 16px;border-bottom:1px solid rgba(255,255,255,0.03);align-items:start}
+.dr:last-child{border-bottom:none}
+.dr:hover{background:rgba(255,255,255,0.02)}
+.dr-lt{display:flex;align-items:center;padding-top:3px;min-height:18px}
+.dr-name{font-family:var(--font-mono);font-size:10px;color:var(--muted);line-height:1.5}
+.dr-name small{display:block;font-size:9px;color:var(--muted2);margin-top:1px}
+.dr-val{font-family:var(--font-mono);font-size:11px;font-weight:500;line-height:1.5}
+.dr-val.bull{color:var(--bull)}.dr-val.semibull{color:var(--semibull)}.dr-val.warn{color:var(--warn)}.dr-val.semibear{color:var(--semibear)}.dr-val.bear{color:var(--bear)}.dr-val.neutral{color:var(--neutral)}
+.dr-note{font-size:10px;color:var(--muted);margin-left:6px;}
+.hl{font-weight:600}
+.hl.bull{color:var(--bull)}.hl.semibull{color:var(--semibull)}.hl.warn{color:var(--warn)}.hl.semibear{color:var(--semibear)}.hl.bear{color:var(--bear)}.hl.neutral{color:var(--neutral)}
+
+@media(max-width:700px){
+  /* cards stack vertically */
+  .card-row{grid-template-columns:1fr}
+  .strategy-block{grid-template-columns:1fr}
+
+  /* detail rows: switch to 2-col, show values */
+  .dr{grid-template-columns:18px 1fr;gap:4px;padding:6px 12px}
+  .dr .dr-val{display:block;grid-column:2;font-size:11px;padding-top:1px}
+  .dr .dr-note{display:none}
+
+  /* sub-section header: wrap gracefully */
+  .dp-sub{flex-wrap:wrap;gap:6px;padding:8px 12px}
+  .dp-sub-name{min-width:0;flex-basis:100%;order:2;font-size:12px}
+  .dp-sub-light{order:1;flex-shrink:0}
+  .dp-sub-conclusion{order:3;font-size:10px;max-width:100%;white-space:normal;word-break:break-all}
+
+  /* detail panel: full width readable */
+  .detail-panel{margin-top:8px;border-radius:6px}
+  .dp-header{padding:8px 12px;flex-wrap:wrap;gap:6px}
+  .dp-title{font-size:10px;min-width:0;flex:1}
+
+  /* name col: full width on mobile */
+  .dr-name{font-size:10px;line-height:1.45}
+  .dr-name small{font-size:9px}
+}
+
+/* ── Strategy / Risk block ── */
+.strategy-block{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 20px 6px;border-bottom:1px solid var(--border)}
+.strategy-item{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:10px 14px}
+.strategy-item-label{font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.strategy-row{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px}
+.strategy-row:last-child{border-bottom:none}
+.strategy-row-name{color:var(--muted);flex:1;font-family:var(--font-mono);font-size:10px}
+.strategy-row-val{font-family:var(--font-mono);font-size:11px;font-weight:600}
+.strategy-row-val.bull{color:var(--bull)}.strategy-row-val.bear{color:var(--bear)}
+.strategy-row-val.warn{color:var(--warn)}.strategy-row-val.neutral{color:var(--neutral)}
+.strategy-row-val.semibull{color:var(--semibull)}.strategy-row-val.semibear{color:var(--semibear)}
+@media(max-width:700px){.strategy-block{grid-template-columns:1fr}}
+
+/* ── Trader viewpoint ── */
+.section-block{padding:16px 20px;border-bottom:1px solid var(--border)}
+.section-block-label{font-family:var(--font-mono);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.section-block-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.trader-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.trader-card:last-child{margin-bottom:0}
+.trader-head{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card2);border-bottom:1px solid var(--border)}
+.trader-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.av-yang{background:rgba(240,180,41,0.2)}
+.trader-name{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text)}
+.trader-badge{font-family:var(--font-mono);font-size:9px;padding:2px 7px;border-radius:3px;margin-left:auto;background:rgba(240,180,41,0.12);color:var(--accent)}
+.trader-body{padding:12px 16px;font-size:12px;line-height:1.8;color:var(--muted)}
+.trader-body strong{color:var(--text);font-weight:500}
+.trader-body .hl-amber{color:var(--warn);font-weight:500}
+.trader-body .hl-red{color:var(--bull);font-weight:500}
+.trader-body .key-point{background:rgba(255,255,255,0.04);border-left:2px solid var(--accent);padding:8px 12px;margin:8px 0;border-radius:0 5px 5px 0;font-size:12px;color:var(--text)}
+
+/* ── Collapsible accordion sections ── */
+.acc-block{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:12px 20px 0}
+.acc-block:last-child{margin-bottom:20px}
+.acc-head{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none;background:var(--card);transition:background 0.15s}
+.acc-head:hover{background:var(--card2)}
+.acc-head-num{font-family:var(--font-mono);font-size:10px;color:var(--muted);flex-shrink:0}
+.acc-head-title{font-size:13px;font-weight:500;color:var(--text);flex:1}
+.acc-head-tag{font-family:var(--font-mono);font-size:10px;padding:2px 8px;border-radius:3px;background:rgba(240,180,41,0.12);color:var(--accent);flex-shrink:0}
+.acc-chevron{width:14px;height:14px;color:var(--muted);transition:transform 0.2s;flex-shrink:0}
+.acc-block.open .acc-chevron{transform:rotate(180deg)}
+.acc-body{display:none;border-top:1px solid var(--border);background:var(--panel)}
+.acc-block.open .acc-body{display:block}
+.news-list{list-style:none;padding:0}
+.news-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;line-height:1.6}
+.news-item:last-child{border-bottom:none}
+.ntag{display:inline-block;font-family:var(--font-mono);font-size:9px;padding:1px 6px;border-radius:3px;margin-right:5px;vertical-align:middle;flex-shrink:0;margin-top:2px}
+.ntag-ai{background:rgba(96,165,250,0.15);color:#60a5fa}
+.ntag-tw{background:rgba(255,77,77,0.12);color:var(--bull)}
+.ntag-us{background:rgba(251,146,60,0.12);color:var(--semibull)}
+.ntag-macro{background:rgba(61,214,140,0.1);color:var(--bear)}
+.ntag-intl{background:rgba(245,197,24,0.1);color:var(--warn)}
+.ntag-mem{background:rgba(163,217,119,0.1);color:var(--semibear)}
+.ntag-pre{background:rgba(255,77,77,0.18);color:var(--bull);font-weight:600}
+.news-text{color:var(--text)}
+
+/* ── Sector / key-stock trend table ── */
+.trend-update-date{font-family:var(--font-mono);font-size:10px;color:var(--muted);margin:4px 0 10px}
+.trend-table-wrap{overflow-x:auto;margin-bottom:14px}
+.trend-table{width:100%;border-collapse:collapse;font-size:11px}
+.trend-table th{font-family:var(--font-mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-align:center;padding:6px 4px;border-bottom:1px solid var(--border-bright);white-space:nowrap}
+.trend-table th:first-child{text-align:left;padding-left:4px}
+.trend-table td{padding:5px 4px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:center;font-family:var(--font-mono)}
+.trend-table td:first-child{text-align:left;color:var(--text);font-weight:500;padding-left:4px;white-space:nowrap}
+.trend-table td.note{color:var(--muted);font-size:10px;text-align:left;font-family:var(--font-body)}
+.trend-table tbody tr:hover{background:rgba(255,255,255,0.02)}
+.tv-bull{color:var(--bull);font-weight:600}
+.tv-bear{color:var(--bear);font-weight:600}
+.tv-flat{color:var(--neutral)}
+.trend-subhead{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--accent);margin:14px 0 6px;text-transform:uppercase}
+.trend-subhead:first-child{margin-top:0}
+@media(max-width:700px){
+  .trend-table{font-size:10px}
+  .trend-table td.note{display:none}
+  .trend-table th:nth-child(5){display:none}
+  .trend-table td:nth-child(5){display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-title">Market Observation Record &nbsp;·&nbsp; 市場觀察紀錄</div>
+  <div class="hdr-page-label">🇹🇼 台股</div>
+  <div class="hdr-legend">
+    <span class="hl-disclaimer">⚠ 燈號說明 AI 判讀可能有誤，如有疑惑以文字說明為主</span>
+    <span class="hl-item"><span class="tl tl-bull"></span>多方</span>
+    <span class="hl-item"><span class="tl tl-semibull"></span>偏多</span>
+    <span class="hl-item"><span class="tl tl-warn"></span>警戒</span>
+    <span class="hl-item"><span class="tl tl-semibear"></span>偏空</span>
+    <span class="hl-item"><span class="tl tl-bear"></span>空方</span>
+    <span class="hl-item"><span class="tl tl-neutral"></span>中性</span>
+  </div>
+  <div class="hdr-date">2026 / 06 / 26</div>
+</div>
+
+<!-- ══════════ PAGE: 台股 ══════════ -->
+<div class="page" id="page-tw">
+
+  <!-- 交易策略與風險趨勢評估 -->
+  <div class="strategy-block">
+    <div class="strategy-item">
+      <div class="strategy-item-label">趨勢判斷</div>
+      <div class="strategy-row">
+        <span class="tl tl-neutral"></span>
+        <span class="strategy-row-name">台股短期趨勢（5～20日）</span>
+        <span class="strategy-row-val neutral">盤 ⬇</span>
+      </div>
+      <div class="strategy-row">
+        <span class="tl tl-bull"></span>
+        <span class="strategy-row-name">台股中期趨勢（20～60日）</span>
+        <span class="strategy-row-val bull">多</span>
+      </div>
+      <div class="strategy-row">
+        <span class="tl tl-bull"></span>
+        <span class="strategy-row-name">台股長期趨勢（120日～240日）</span>
+        <span class="strategy-row-val bull">多</span>
+      </div>
+    </div>
+    <div class="strategy-item">
+      <div class="strategy-item-label">風險評估</div>
+      <div class="strategy-row">
+        <span class="tl tl-semibear"></span>
+        <span class="strategy-row-name">台股短期風險等級</span>
+        <span class="strategy-row-val semibear">中高 ⬆</span>
+      </div>
+      <div class="strategy-row">
+        <span class="tl tl-warn"></span>
+        <span class="strategy-row-name">台股中期風險等級</span>
+        <span class="strategy-row-val warn">中 ⬆</span>
+      </div>
+      <div class="strategy-row">
+        <span class="tl tl-bull"></span>
+        <span class="strategy-row-name">台股長期風險等級</span>
+        <span class="strategy-row-val bull">低</span>
+      </div>
+    </div>
+    <div class="strategy-item">
+      <div class="strategy-item-label">資金比重上限</div>
+      <div class="strategy-row">
+        <span class="tl tl-semibear"></span>
+        <span class="strategy-row-name">資金比重上限（請自行參酌自身條件、風險承受度）</span>
+        <span class="strategy-row-val semibear">中低</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="domain-label" style="margin-top:14px">核心指標 — 台股市場觀察總覽</div>
+
+  <div style="padding:0 0 0 0">
+    <div class="card" id="card-tw" onclick="openDetail('tw','tw',this)" style="border-radius:8px;margin:0">
+      <div class="card-tag">台股 — 主要傳導層 （點擊展開細項）</div>
+
+      <div class="chr-section">宏觀資金</div>
+      <div class="chr">
+        <span class="tl tl-bear"></span>
+        <span class="chr-cat">台幣匯率</span>
+        <span class="chr-con bear">台幣短期趨貶突破箱型持續；31.884 ⬆；日圓、美元走勢持續為台股帶來壓力</span>
+      </div>
+
+      <div class="chr-section">情緒籌碼</div>
+      <div class="chr">
+        <span class="tl tl-warn"></span>
+        <span class="chr-cat">期貨選擇權</span>
+        <span class="chr-con warn">外資期貨空單創高到不可思議水位；P/C Ratio 114.57% ⬇；外資淨空 -81,051 ⬇ 略降</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-warn"></span>
+        <span class="chr-cat">現貨籌碼</span>
+        <span class="chr-con warn">外資持續賣超（-405）；投信持續買超（+174）；融資增加 +35.4 億</span>
+      </div>
+
+      <div class="chr-section">現貨技術</div>
+      <div class="chr">
+        <span class="tl tl-warn"></span>
+        <span class="chr-cat">加權指數</span>
+        <span class="chr-con warn">KD 背離確定，警戒提高；整體形態創高突破趨向不扎實，背離風險加深</span>
+      </div>
+      <div class="chr" style="padding-left:24px">
+        <span style="width:10px;flex-shrink:0"></span>
+        <span class="chr-cat" style="font-size:9px;color:var(--muted2)">中期技術</span>
+        <span class="chr-con warn" style="font-size:10px">回測前高及 10MA，防範假突破；背離風險加深</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-warn"></span>
+        <span class="chr-cat">上櫃指數</span>
+        <span class="chr-con warn">未達鈍化區且 KD 死叉二次背離；MACD、價量二次背離</span>
+      </div>
+      <div class="chr" style="padding-left:24px">
+        <span style="width:10px;flex-shrink:0"></span>
+        <span class="chr-cat" style="font-size:9px;color:var(--muted2)">中期技術</span>
+        <span class="chr-con neutral" style="font-size:10px">中期多方趨勢訊號震盪，需持續觀察；前高震盪趨近中期盤整</span>
+      </div>
+
+      <div class="chr-section">廣度 · 板塊</div>
+      <div class="chr">
+        <span class="tl tl-neutral"></span>
+        <span class="chr-cat">市場廣度</span>
+        <span class="chr-con neutral">上市廣度中性偏多，上櫃廣度需持續觀察</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-neutral"></span>
+        <span class="chr-cat">漲跌家數</span>
+        <span class="chr-con neutral">大盤修正，但個股表現相對抗跌</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-bear"></span>
+        <span class="chr-cat">權值股動態</span>
+        <span class="chr-con bear">權值股動能持續疲弱往空方邁進；南亞科、國巨、聯電唯三強勢；鴻海新增盤整疲弱</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-warn"></span>
+        <span class="chr-cat">類股族群</span>
+        <span class="chr-con warn">生技醫療熄火；弱勢傳產持續吸引資金進駐；主流被動、光學一日有動能需觀察持續性</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-neutral"></span>
+        <span class="chr-cat">漲跌結構</span>
+        <span class="chr-con neutral">空方力道出現，整體結構中性偏空；強勢最低 0.69%，中位 2.33%</span>
+      </div>
+
+      <div class="card-open-hint">▼ 點擊展開細項</div>
+    </div>
+  </div>
+  <!-- Detail panel for TW page -->
+  <div class="detail-panel" id="dp-tw">
+    <div class="dp-header">
+      <span class="dp-title" id="dp-tw-title">—</span>
+      <span class="dp-close" onclick="closeDetail('tw')">✕ 關閉</span>
+    </div>
+    <div class="dp-body" id="dp-tw-body"></div>
+  </div>
+
+  <div class="domain-label" style="margin-top:18px">核心指標 — 美股市場 ／ 國際市場觀察</div>
+
+  <div style="padding:0 0 0 0">
+    <div class="card" id="card-us" onclick="openDetailUs(this)" style="border-radius:8px;margin:0">
+      <div class="card-tag">美股 ／ 國際市場 — 主要傳導層 （點擊展開細項）</div>
+
+      <div class="chr-section">宏觀資金</div>
+      <div class="chr">
+        <span class="tl tl-neutral"></span>
+        <span class="chr-cat">美債利率 US10Y</span>
+        <span class="chr-con neutral">US2Y 趨升（Fed 升息指引）；US10Y 短期翻空；4.39% ⬇</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-bull"></span>
+        <span class="chr-cat">信用市場 HY OAS</span>
+        <span class="chr-con bull">流動性無虞；2.76 持續低位</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-neutral"></span>
+        <span class="chr-cat">MOVE 指數</span>
+        <span class="chr-con neutral">67.1 低於基準水位</span>
+      </div>
+
+      <div class="chr-section">情緒結構</div>
+      <div class="chr">
+        <span class="tl tl-neutral"></span>
+        <span class="chr-cat">VIX 隱含波動率</span>
+        <span class="chr-con neutral">波動率回落，但短線有點走強；18.88</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-neutral"></span>
+        <span class="chr-cat">VX1/VX2 期貨價差</span>
+        <span class="chr-con neutral">0.965 Contango 結構</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-warn"></span>
+        <span class="chr-cat">DXYZ 投機溫度</span>
+        <span class="chr-con warn">持續探低；24.8 ⬇</span>
+      </div>
+
+      <div class="chr-section">美股廣度 · 板塊</div>
+      <div class="chr">
+        <span class="tl tl-warn"></span>
+        <span class="chr-cat">主要指數</span>
+        <span class="chr-con warn">費半疑似假突破，那指、標普醞釀頭部風險；道瓊及羅素相對穩健</span>
+      </div>
+      <div class="chr" style="padding-left:24px">
+        <span style="width:10px;flex-shrink:0"></span>
+        <span class="chr-cat" style="font-size:9px;color:var(--muted2)">費半 / 那指 / 標普</span>
+        <span class="chr-con neutral" style="font-size:10px">費半站回前高高檔震盪；那指、標普盤整區回落，中性偏空盤頭；道瓊/羅素盤中創高震盪</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-neutral"></span>
+        <span class="chr-cat">SPLV 低波因子</span>
+        <span class="chr-con neutral">74.9 ⬆ 盤中突破區間高點後壓回；75.09</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-warn"></span>
+        <span class="chr-cat">指標股技術</span>
+        <span class="chr-con warn">除記憶體外，普遍仍持續弱勢盤整或下測；台積電 ADR 回測前高月線震盪；ASML 月線上方震盪；MU 大漲逼近前高</span>
+      </div>
+
+      <div class="chr-section">國際市場</div>
+      <div class="chr">
+        <span class="tl tl-semibull"></span>
+        <span class="chr-cat">亞股</span>
+        <span class="chr-con semibull">日韓短線走勢挺住，多方格局尚在</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-bear"></span>
+        <span class="chr-cat">黃金</span>
+        <span class="chr-con bear">長空似確立，空方強勢主導；4.123% ⬇</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-semibull"></span>
+        <span class="chr-cat">布蘭特原油</span>
+        <span class="chr-con semibull">中長期翻空持續下跌</span>
+      </div>
+      <div class="chr">
+        <span class="tl tl-bear"></span>
+        <span class="chr-cat">比特幣 BTC</span>
+        <span class="chr-con bear">長空疲弱</span>
+      </div>
+
+      <div class="card-open-hint">▼ 點擊展開細項</div>
+    </div>
+  </div>
+  <!-- Detail panel for US/Intl -->
+  <div class="detail-panel" id="dp-us">
+    <div class="dp-header">
+      <span class="dp-title" id="dp-us-title">美股 ／ 國際市場 — 主要傳導層完整細項（資料日期：6/25）</span>
+      <span class="dp-close" onclick="closeDetailUs()">✕ 關閉</span>
+    </div>
+    <div class="dp-body" id="dp-us-body"></div>
+  </div>
+
+  <!-- 交易者觀點 accordion -->
+  <div class="acc-block open" id="acc-trader">
+    <div class="acc-head" onclick="toggleAcc('acc-trader')">
+      <span class="acc-head-num">→</span>
+      <span class="acc-head-title">交易者觀點</span>
+      <span class="acc-head-tag">K線捕手 6/26</span>
+      <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="acc-body">
+      <div class="trader-card" style="border:none;border-radius:0;margin:0">
+        <div class="trader-head" style="border-top:none">
+          <div class="trader-avatar av-yang">📌</div>
+          <span class="trader-name">K線捕手</span>
+          <span class="trader-badge">6/26 十秒鐘看台股｜加權指數可能回測 20 日線</span>
+        </div>
+        <div class="trader-body">
+          加權指數昨天受到尾盤台積電賣壓影響，終場上漲 221 點，成交量 1 兆 3,094 億元，呈現價漲量縮，屬於反彈型態的價量結構，籌碼面中性偏空，<strong>技術面則暫時守住 10 日線。</strong>上櫃指數小跌 0.51%，10 日線目前仍具支撐。<br><br>
+          前幾天便提醒大家，雖然短線已出現止跌跡象，但現階段仍不宜過度樂觀，因為先前提到的幾項潛在風險，目前大多尚未解除，包括：<br><br>
+          ■ 那斯達克與費半指數逐漸浮現頭部雛形<br>
+          ■ 台積電高檔背離現象仍未化解<br>
+          ■ 指標股、強勢股陸續出現「利多不漲」或「利多鈍化」現象<br>
+          ■ 市場尚未出現足以接棒的新主流族群<br>
+          ■ 前十大權值股中，不少個股也開始形成頭部結構<br><br>
+          <div class="key-point"><span class="hl-red">夜盤期指續跌 722 點，一度測試 20 日線支撐，今天加權指數也可能面臨回測 20 日線的壓力。</span>此外，若下週仍無法重新轉強，20 日線恐將由走平轉為下彎，屆時短線技術面壓力可能進一步增加，因此<strong>操作上仍建議維持謹慎、保守的節奏。</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 重點新聞 accordion -->
+  <div class="acc-block open" id="acc-news" style="margin-bottom:24px">
+    <div class="acc-head" onclick="toggleAcc('acc-news')">
+      <span class="acc-head-num">→</span>
+      <span class="acc-head-title">2026.6.26 Thu 工商時報、經濟日報重點頭條</span>
+      <span class="acc-head-tag">盤前必讀</span>
+      <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="acc-body" style="padding:8px 20px 16px">
+      <ul class="news-list">
+        <li class="news-item"><span class="ntag ntag-pre">盤前</span><span class="news-text">外資提款 台積重傷 換手名單大曝光 最愛 2 檔封測廠</span></li>
+        <li class="news-item"><span class="ntag ntag-us">美股</span><span class="news-text"><strong>蘋果宣布漲價股價挫 6% 道瓊漲幅蒸發、那指連 4 黑 美光狂飆近 16%</strong><br>
+          /美股收盤：蘋果漲價拖累信心 美光帶動費半大漲也救不了美股 那指寫下四連跌</span></li>
+        <li class="news-item"><span class="ntag ntag-tw">台股</span><span class="news-text"><strong>台幣連爆巨量 破 31.8 價位 史上前十大量今年或因它而全刷新；AI 點火 台股 56 千金創高；外資狂提款 轉擁 4 檔新歡台積電、鴻海等權值股遭大賣，京元電子、日月光投控、聯發科、南電獲逆勢加碼逾百億元</span></li>
+        <li class="news-item"><span class="ntag ntag-macro">總經</span><span class="news-text"><strong>3 年新高 美 5 月 PCE 年增 4.1% 數據好壞參半</strong>，最受到矚目的通膨指標：個人消費支出物價指數（PCE），5 月年增率升高至 4.1%，創下 3 年來最高紀錄；/美通膨增溫 推高升息機率 能源價格上漲是主因；高盛：Fed 7 月升息機率不小</span></li>
+        <li class="news-item"><span class="ntag ntag-ai">AI</span><span class="news-text">記憶體缺貨 燒到 2027 後；/美光財報猛 打記憶體空頭 點火晶片股行情；半導體製程大突破 埃米時代 IBM 推 0.7 奈米晶片；谷歌 再掀頂尖 AI 人才出走潮</span></li>
+        <li class="news-item"><span class="ntag ntag-tw">台積電</span><span class="news-text">蘋果 MAC、iPad 全漲價 盤中股價應聲跌 4%；創意、智邦高價績優 外資挺；需求回溫 矽晶圓三雄合晶、台勝科、環球晶也傳漲聲 6 吋先調 8 吋、12 吋跟上</span></li>
+        <li class="news-item"><span class="ntag ntag-macro">總經</span><span class="news-text">國銀不動產放款比率 15 年半新低；上半年 IPO 籌資 半導體業最旺；全球超級電腦排行榜 TOP 500，台灣位居全球前十大 華碩、台智雲 囊括台近 8 成算力；CCL 轉成賣方市場 聯茂步入成長循環</span></li>
+        <li class="news-item"><span class="ntag ntag-macro">總經</span><span class="news-text">華許偏鷹 貴金屬、比特幣崩；石英元件業者 樂看 2026 年；/長榮海運旗下長麗輪遇襲！IMO 喊停荷莫茲撤離計畫 美伊停火再添變數</span></li>
+        <li class="news-item"><span class="ntag ntag-tw">個股</span><span class="news-text">券商前五月賺 1,175 億 寫新高；外資逆勢加碼逾百億元；外資狂提款 轉擁 4 檔</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 類股及權值股趨勢 accordion -->
+  <div class="acc-block" id="acc-sector" style="margin-bottom:24px">
+    <div class="acc-head" onclick="toggleAcc('acc-sector')">
+      <span class="acc-head-num">→</span>
+      <span class="acc-head-title">類股及權值股趨勢</span>
+      <span class="acc-head-tag">更新日期 6/21</span>
+      <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="acc-body" style="padding:12px 20px 16px">
+      <div class="trend-update-date">短/中/長期趨勢標示：<span class="tv-bull">多</span> ／ <span class="tv-flat">盤整</span> ／ <span class="tv-bear">空</span>　·　紅 = 趨勢往多方變化　·　綠 = 趨勢往空方變化</div>
+
+      <div class="trend-subhead">上市 20 大權值股</div>
+      <div class="trend-table-wrap">
+        <table class="trend-table">
+          <thead><tr><th>股票</th><th>短期</th><th>中期</th><th>長期</th><th>備註</th></tr></thead>
+          <tbody>
+        <tr><td>台積電 2330</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>鴻海 2317</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>聯發科 2454</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>廣達 2382</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>台達電 2308</td><td><span class="tv-bear">空</span></td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td class="note">低基期</td></tr>
+        <tr><td>富邦金 2881</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>中華電 2412</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>國泰金 2882</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>中信金 2891</td><td><span class="tv-bear">空</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note">低基期</td></tr>
+        <tr><td>台光電</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>欣興</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note">低基期</td></tr>
+        <tr><td>智邦</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>緯穎</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>聯電</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>南亞科</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>奇鋐</td><td><span class="tv-bear">空</span></td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td class="note">低基期</td></tr>
+        <tr><td>鴻勁</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>國巨</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>致茂</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>日月光控股</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="trend-subhead">上櫃 20 大權值股</div>
+      <div class="trend-table-wrap">
+        <table class="trend-table">
+          <thead><tr><th>股票</th><th>短期</th><th>中期</th><th>長期</th><th>備註</th></tr></thead>
+          <tbody>
+        <tr><td>群聯</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>信驊</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>旺矽</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>世界</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note">低基期</td></tr>
+        <tr><td>環球晶</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note">低基期</td></tr>
+        <tr><td>鈊象</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-flat">盤整</span></td><td><span class="tv-flat">盤整</span></td><td class="note"></td></tr>
+        <tr><td>力旺</td><td><span class="tv-bear">空</span></td><td><span class="tv-bear">空</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>元太</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bear">空</span></td><td><span class="tv-bull">多</span></td><td class="note">低基期</td></tr>
+        <tr><td>台燿</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>精測</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>聯亞</td><td><span class="tv-bear">空</span></td><td><span class="tv-bear">空</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>穩懋</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>昇達科</td><td><span class="tv-bear">空</span></td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>萬潤</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>威剛</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>金居</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>頎邦</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>欣銓</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>宜鼎</td><td><span class="tv-flat">盤整</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+        <tr><td>聖暉</td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td><span class="tv-bull">多</span></td><td class="note"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+// ─── Detail content definitions ───────────────────────────────────────────
+// Section format: { sub, light, conclusion, rows: [name, val, note] }
+const DETAILS = {
+  'tw': {
+    title: '台股 — 主要傳導層完整細項（資料日期：6/25）',
+    sections: [
+      { sub: '宏觀資金 — 台幣匯率', light: 'bear', conclusion: '台幣短期趨貶突破箱型持續；日圓、美元走勢持續為台股帶來壓力',
+        rows: [
+          ['台幣短期趨勢 <sm>半年線上下；偏貶=外資疑慮</sm>','31.884 ⬆ 持續突破盤整區間','<hl bear>趨貶持續加劇</hl>'],
+        ]},
+      { sub: '情緒籌碼 — 期貨選擇權', light: 'warn', conclusion: '外資期貨空單創高到不可思議；P/C Ratio 下滑但仍高位',
+        rows: [
+          ['台股 P/C Ratio <sm>&gt;100% 偏多；&lt;100% 偏空</sm>','114.57% ⬇',''],
+          ['外資期貨未平倉 淨多空 <sm>&gt;40,000 偏空</sm>','-81,051 ⬇ 略降','<hl warn>仍為極端偏空位階</hl>'],
+        ]},
+      { sub: '情緒籌碼 — 現貨籌碼', light: 'warn', conclusion: '外資持續賣超；投信融資持續買超',
+        rows: [
+          ['外資 現貨買賣超（上市）','-405 億','持續賣超'],
+          ['投信 買賣超（上市）','+174','持續買超'],
+          ['主力 買賣超（上市）','-190',''],
+          ['融資增減（上市）','+35.4 億',''],
+          ['外資 買賣超（上櫃）','-91.3',''],
+          ['投信 買賣超（上櫃）','+2.68',''],
+          ['融資增減（上櫃）','+10.1',''],
+        ]},
+      { sub: '現貨技術 — 加權指數', light: 'warn', conclusion: 'KD 背離確定，警戒提高；整體形態創高突破趨向不扎實，背離風險加深',
+        rows: [
+          ['價格 / 漲跌幅 / 成交量','46,255 / +0.46% / 13,668E',''],
+          ['短期 K棒 / 價量關係（單日）','短黑十字 / 價漲量縮（反彈型態）','<hl warn>價漲量縮，籌碼中性偏空</hl>'],
+          ['短期 5MA / 10MA 方向（週KD同步）','收斂但仍上揚',''],
+          ['短期 KD（5MA角度）','脫離鈍化區死叉','<hl warn>KD 背離確定</hl>'],
+          ['中期 K棒型態','創高震盪；回測前高及 10MA（防範假突破）',''],
+          ['中期 20MA（月線）+ 60MA（季線）位置','上揚且扣低',''],
+          ['中期 MACD','多方（輕微背離）','<hl semibull>整體形態創高突破趨向不扎實，背離風險加深</hl>'],
+        ]},
+      { sub: '現貨技術 — 上櫃指數', light: 'warn', conclusion: 'KD 死叉二次背離；MACD、價量二次背離',
+        rows: [
+          ['價格 / 漲跌幅 / 成交量','439.84 / -0.51% / 2,548E',''],
+          ['短期 K棒 / 價量關係（單日）','小黑倒錘 / 價跌量平',''],
+          ['短期 5MA / 10MA 方向','金叉且同步上揚開口持平',''],
+          ['短期 KD','未達鈍化區且死叉二次背離','<hl warn>KD 死叉二次背離</hl>'],
+          ['中期 K棒型態','前高震盪，趨近中期盤整',''],
+          ['中期 20MA（月線）+ 60MA（季線）','金叉收斂，月線扣高',''],
+          ['中期 MACD','多方但二次背離','<hl neutral>中期多方趨勢訊號震盪，MACD、價量二次背離</hl>'],
+        ]},
+      { sub: '廣度/板塊 — 市場廣度', light: 'neutral', conclusion: '上市廣度中性偏多，上櫃廣度需持續觀察',
+        rows: [
+          ['上市個股多空比例','短期金叉收斂，但中期金叉卻擴張',''],
+          ['上櫃個股多空比例','短期金叉持平，中期金叉持平多空持續上揚',''],
+        ]},
+      { sub: '廣度/板塊 — 漲跌家數', light: 'neutral', conclusion: '大盤修正，但個股表現相對抗跌',
+        rows: [
+          ['上市漲跌停家數','漲家 &gt; 跌家',''],
+          ['上市漲跌家數比例','漲家 &gt; 跌家',''],
+          ['上櫃漲跌家數比例','漲家 &lt; 跌家',''],
+        ]},
+      { sub: '廣度/板塊 — 權值股動態', light: 'bear', conclusion: '權值股動能持續疲弱往空方邁進；鴻海新增盤整；上櫃世界/聖暉/旺矽唯三強勢',
+        rows: [
+          ['上市權值股 整體動能','南亞科、國巨、聯電唯三強勢；盤整股價格持續疲弱（新增鴻海）',''],
+          ['上櫃權值股 整體動能','世界、聖暉、旺矽唯三強勢；整體盤整個股已經大於多方個股',''],
+        ]},
+      { sub: '廣度/板塊 — 類股族群資金流量', light: 'warn', conclusion: '生技醫療熄火；弱勢傳產持續吸引資金進駐；主流被動、光學一日有動能需觀察持續性',
+        rows: [
+          ['類股動向（上市）','電零組、金融、光電、塑膠',''],
+          ['類股動向（上市偏多）','數位雲端、觀光',''],
+          ['類股動向（上櫃）','居家生活、其他',''],
+          ['強勢族群','IC基板、廠務工程',''],
+          ['偏多方族群','航空、被動元件、光學鏡頭、金控',''],
+          ['量比','廠務工程、光學鏡頭、IC基板、被動元件、金融',''],
+          ['成交重心','IC基板、廠務、光學',''],
+          ['空方強勢','IC封測、光纖',''],
+        ]},
+      { sub: '廣度/板塊 — 漲跌結構', light: 'neutral', conclusion: '空方力道出現，整體結構中性偏空',
+        rows: [
+          ['強勢股排行（150檔）','最低：0.69%；中位：2.33%',''],
+          ['弱勢股排行（150檔）','最低：-2.75%；中位：-4%',''],
+          ['開盤強勢','比例偏空，走勢中性',''],
+          ['開盤弱勢','比例偏空，走勢偏空',''],
+          ['大幅震盪','比例偏空，走勢中性',''],
+        ]},
+    ]
+  },
+  'us': {
+    title: '美股 ／ 國際市場 — 主要傳導層完整細項（資料日期：6/25）',
+    sections: [
+      { sub: '宏觀資金 — 美債利率', light: 'neutral', conclusion: 'US2Y 趨升（Fed 升息指引）；US10Y 短期翻空',
+        rows: [
+          ['美債利率 US10Y <sm>全球資產定價之母</sm>','4.39% ⬇ 短期翻空',''],
+        ]},
+      { sub: '宏觀資金 — 信用市場', light: 'bull', conclusion: '流動性無虞，HY OAS 持續低位',
+        rows: [
+          ['HY OAS 高收益公債利差 <sm>正常 3～5%；&lt;3=極度樂觀</sm>','2.76','流動性無虞'],
+          ['MOVE 指數 <sm>美債隱含波動率；&gt;80=壓力；基準~70</sm>','67.1','低於基準水位'],
+        ]},
+      { sub: '情緒結構 — 波動率', light: 'neutral', conclusion: '波動率回落，但短線有點走強',
+        rows: [
+          ['VIX 隱含波動率 <sm>&gt;25=高風險；&lt;15=過熱；Contango結構</sm>','18.88','短線走強'],
+          ['VX1/VX2 VIX期貨近遠月價差 <sm>&lt;0.93=Backwardation警訊</sm>','0.965 Contango 結構',''],
+        ]},
+      { sub: '情緒結構 — 投機溫度', light: 'warn', conclusion: '持續探低，需警戒看待',
+        rows: [
+          ['DXYZ 創新/SPAC ETF <sm>中期翻空=投機資金撤退</sm>','24.8 ⬇ 持續探低','<hl warn>需警戒看待</hl>'],
+        ]},
+      { sub: '美股廣度 — 主要指數', light: 'warn', conclusion: '費半疑似假突破；那指、標普醞釀頭部風險；道瓊及羅素相對穩健',
+        rows: [
+          ['費半','站回前高，高檔震盪區','<hl warn>疑似假突破持續觀察</hl>'],
+          ['那斯達克','盤整區回落，中性偏空盤頭',''],
+          ['標普 500','盤整區回落，中性偏空盤頭',''],
+          ['道瓊','盤中創高震盪',''],
+          ['羅素 2000','大漲逼近前高',''],
+        ]},
+      { sub: '因子輪動 — SPLV 低波因子', light: 'neutral', conclusion: '盤中突破區間高點後壓回；防禦轉強訊號增強',
+        rows: [
+          ['SPLV 低波因子 <sm>Risk-off 最直接代理；領先翻強</sm>','74.9 ⬆ 盤中突破後壓回；75.09','<hl neutral>防禦性轉強訊號持續</hl>'],
+        ]},
+      { sub: '指標股技術 — 晶片 / GPU', light: 'warn', conclusion: '除記憶體外，普遍仍持續弱勢盤整或下測',
+        rows: [
+          ['NVDA 半導體龍頭','跌破季線持續下探，中期翻空','<hl warn>中期翻空</hl>'],
+          ['台積電 ADR','回測前高及月線震盪',''],
+          ['ASML 半導體設備龍頭','月線上方震盪',''],
+          ['MU 記憶體','大漲逼近前高','<hl semibull>強勢</hl>'],
+          ['AVGO ASIC+高速網路','季線下方附近疲弱震盪',''],
+          ['統一 FAANG 大型科技','短線翻空跌破季線，持續回測前高位置震盪','<hl warn>短線翻空</hl>'],
+          ['GOOG 雲端+廣告','短線翻空跌破季線，持續回測前高',''],
+        ]},
+      { sub: '國際市場 — 亞股', light: 'semibull', conclusion: '日韓短線走勢挺住，多方格局尚在',
+        rows: [
+          ['日本 日經','反彈結束回測前高，短期頭部雛形醞釀',''],
+          ['韓國 KOSPI','回測月線挺住，多方格局尚在需再觀察',''],
+        ]},
+      { sub: '國際市場 — 商品', light: 'warn', conclusion: '黃金長空確立；原油中長期翻空；BTC 長空疲弱回測',
+        rows: [
+          ['黃金','長空似確立，空方強勢主導；4.123% ⬇','<hl bear>空方主導</hl>'],
+          ['布蘭特原油','中長期翻空持續下跌','<hl semibull>中長期翻空</hl>'],
+          ['比特幣 BTC','長空疲弱','<hl bear>長空疲弱</hl>'],
+        ]},
+    ]
+  },
+};
+
+
+// ─── Render detail rows ────────────────────────────────────────────────────
+function renderDetail(key) {
+  const d = DETAILS[key];
+  if (!d) return '<div style="padding:16px;color:var(--muted);font-family:var(--font-mono);font-size:11px;">資料建置中</div>';
+  let html = '';
+  d.sections.forEach(sec => {
+    const lightHtml = sec.light
+      ? `<span class="dp-sub-light"><span class="tl tl-${sec.light}"></span></span>`
+      : `<span class="dp-sub-light"><span style="display:inline-block;width:8px"></span></span>`;
+    const concHtml = sec.conclusion
+      ? `<span class="dp-sub-conclusion ${sec.light||'neutral'}">${sec.conclusion}</span>`
+      : '';
+    html += `<div class="dp-sub">${lightHtml}<span class="dp-sub-name">${sec.sub}</span>${concHtml}</div>`;
+    sec.rows.forEach(([name, val, note]) => {
+      const nameHtml = name.replace(/<sm>(.*?)<\/sm>/g,'<small>$1</small>');
+      const valHtml = (val||'').replace(/<hl (\w+)>(.*?)<\/hl>/g,'<span class="hl $1">$2</span>');
+      const noteHtml = (note||'').replace(/<hl (\w+)>(.*?)<\/hl>/g,'<span class="hl $1">$2</span>');
+      const noteStr = noteHtml ? `<span class="dr-note"> ${noteHtml}</span>` : '';
+      html += `<div class="dr">
+        <div class="dr-lt"></div>
+        <div class="dr-name">${nameHtml}</div>
+        <div class="dr-val">${valHtml}${noteStr}</div>
+      </div>`;
+    });
+  });
+  return html;
+}
+
+// ─── State ─────────────────────────────────────────────────────────────────
+let activeCard = {};  // page -> cardEl
+
+function openDetail(page, key, cardEl) {
+  const detailKey = 'tw';
+  const panel = document.getElementById('dp-tw');
+  const titleEl = document.getElementById('dp-tw-title');
+  const bodyEl = document.getElementById('dp-tw-body');
+
+  if (activeCard[page] === cardEl && panel.classList.contains('visible')) {
+    closeDetail(page);
+    return;
+  }
+  if (activeCard[page] && activeCard[page] !== cardEl) {
+    activeCard[page].classList.remove('active');
+    activeCard[page].querySelector('.card-open-hint').textContent = '▼ 點擊展開細項';
+  }
+  activeCard[page] = cardEl;
+  cardEl.classList.add('active');
+  cardEl.querySelector('.card-open-hint').textContent = '▲ 已展開';
+
+  titleEl.textContent = DETAILS[detailKey] ? DETAILS[detailKey].title : detailKey;
+  bodyEl.innerHTML = renderDetail(detailKey);
+  panel.classList.add('visible');
+  setTimeout(() => panel.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
+}
+
+function closeDetail(page) {
+  document.getElementById('dp-tw').classList.remove('visible');
+  if (activeCard[page]) {
+    activeCard[page].classList.remove('active');
+    const hint = activeCard[page].querySelector('.card-open-hint');
+    if (hint) hint.textContent = '▼ 點擊展開細項';
+    activeCard[page] = null;
+  }
+}
+
+// ─── US / Intl card ────────────────────────────────────────────────────────
+let usCardActive = false;
+
+function openDetailUs(cardEl) {
+  const panel = document.getElementById('dp-us');
+  const bodyEl = document.getElementById('dp-us-body');
+
+  if (usCardActive && panel.classList.contains('visible')) {
+    closeDetailUs();
+    return;
+  }
+  usCardActive = true;
+  cardEl.classList.add('active');
+  cardEl.querySelector('.card-open-hint').textContent = '▲ 已展開';
+
+  bodyEl.innerHTML = renderDetail('us');
+  panel.classList.add('visible');
+  setTimeout(() => panel.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
+}
+
+function closeDetailUs() {
+  const panel = document.getElementById('dp-us');
+  const cardEl = document.getElementById('card-us');
+  panel.classList.remove('visible');
+  usCardActive = false;
+  if (cardEl) {
+    cardEl.classList.remove('active');
+    const hint = cardEl.querySelector('.card-open-hint');
+    if (hint) hint.textContent = '▼ 點擊展開細項';
+  }
+}
+
+function toggleAcc(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+</script>
+</body>
+</html>
